@@ -15,7 +15,6 @@ import java.util.Optional;
 public class CategoryServiceImp implements CategoryService{
 
     //private List<Category> categories=new ArrayList<>();
-    private Long nextId=1L;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -28,7 +27,7 @@ public class CategoryServiceImp implements CategoryService{
 
     @Override
     public void createCategory(Category category) {
-        category.setCategoryId(nextId++);
+
         categoryRepository.save(category);
     }
 
@@ -47,9 +46,8 @@ public class CategoryServiceImp implements CategoryService{
         Category savedCategory=categoryRepository.findById(categoryId)
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Resource not found"));
 
-        category.setCategoryId(categoryId);
-        savedCategory=categoryRepository.save(category);
-        return savedCategory;
+        savedCategory.setCategoryName((category.getCategoryName()));
+        return categoryRepository.save(savedCategory);
     }
 
 }
